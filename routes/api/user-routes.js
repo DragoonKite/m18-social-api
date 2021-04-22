@@ -6,15 +6,15 @@ router.route('/')
     .get()
     .post();
 
-// /api/users/:id
-router.route('/:id')
+// /api/users/:userId
+router.route('/:userId')
     .get()
     .put()
     .delete();
 
 // /api/users/:id/friends/:friendId
-router.route('/:id/friends/friendId')
+router.route('/:userId/friends/friendId')
     .post()
     .delete();
-    
+
 module.exports = router;
