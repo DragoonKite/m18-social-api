@@ -1,4 +1,27 @@
-const {Schema, model} = require('mongoose')
+const {Schema, model, Types} = require('mongoose')
+
+const ReactionSchema = new Schema(
+    {
+        reactionId: {
+            type: Schema.Types.ObjectId,
+            default: () => new Types.ObjectId()
+        },
+        reactionBody: {
+            type: String,
+            required: 'Please enter a reaction before submiting.',
+            maxLength: 280
+        },
+        username: {
+            type: String,
+            required: true
+        },
+        createdAt: {
+            type: Date,
+            default: Date.now,
+            get: createdAtVal => formatDate(createdAtVal)
+        }
+    }
+);
 
 const ThoughtSchema = new Schema(
     {
