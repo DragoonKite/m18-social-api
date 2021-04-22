@@ -21,7 +21,7 @@ const thoughtController = {
 
     //get thought by id
     getThoughtById({params}, res) {
-        User.findOne({_id: params.id})
+        Thought.findOne({_id: params.thoughtId})
             .populate(
                 {
                     path: 'reactions',
@@ -64,7 +64,7 @@ const thoughtController = {
 
     //update thought by id
     updateThought({params, body}, res) {
-        Thought.findOneAndUpdate({_id: params.id}, body, {new: true, runValidators: true})
+        Thought.findOneAndUpdate({_id: params.thoughtId}, body, {new: true, runValidators: true})
             .then(dbThoughtData => {
                 if(!dbThoughtData){
                     res.status(404).json({message: 'Thought not found!'});
@@ -77,7 +77,7 @@ const thoughtController = {
 
     //delete thought by id
     deleteThought({params}, res) {
-        Thought.findOneAndDelete({_id: params.id})
+        Thought.findOneAndDelete({_id: params.thoughtId})
         .then(dbThoughtData => {
             if (!dbThoughtData) {
               res.status(404).json({ message: 'Thought not found!' });

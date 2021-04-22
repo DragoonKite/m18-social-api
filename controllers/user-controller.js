@@ -8,7 +8,8 @@ const userController = {
                 {
                     path: 'thoughts',
                     select: '-__v'
-                },
+                })
+            .populate(
                 {
                     path: 'friends',
                     select: '-__v'
@@ -25,12 +26,13 @@ const userController = {
 
     //get one user by id
     getUserById({params}, res) {
-        User.findOne({_id: params.id})
+        User.findOne({_id: params.userId})
             .populate(
                 {
                     path: 'thoughts',
                     select: '-__v'
-                },
+                })
+            .populate(
                 {
                     path: 'friends',
                     select: '-__v'
@@ -60,7 +62,7 @@ const userController = {
 
     //update user by id
     updateUser({params, body}, res) {
-        User.findOneAndUpdate({_id: params.id}, body, {new: true, runValidators: true})
+        User.findOneAndUpdate({_id: params.userId}, body, {new: true, runValidators: true})
             .then(dbUserData => {
                 if(!dbUserData){
                     res.status(404).json({message: 'User not found!'});
@@ -73,7 +75,7 @@ const userController = {
 
     //delete user by id
     deleteUser({params}, res) {
-        User.findOneAndDelete({_id: params.id})
+        User.findOneAndDelete({_id: params.userId})
         .then(dbUserData => {
             if (!dbUserData) {
               res.status(404).json({ message: 'User not found!' });
@@ -85,10 +87,10 @@ const userController = {
     },
 
     //add friend to users's friend list
-    addFriend({params,body}, res) {
+    addFriend({params}, res) {
         User.findOneAndUpdate(
             {_id: params.userId},
-            {$push: {friends: body}},
+            {$push: {friends: params.friendId}},
             {new: true, runValidators: true}
         )
         .then(dbUserData => {
@@ -105,7 +107,7 @@ const userController = {
     removeFriend({params}, res) {
         User.findOneAndUpdate(
             {_id: params.userId},
-            {$pull: {friends: {friendId: params.friendId}}},
+            {$pull: {friends: params.friendId}},
             {new: true, runValidators: true}
         )
         .then(dbUserData => res.json(dbUserData))
